@@ -1,14 +1,15 @@
-streamlit==1.37.0
-streamlit_folium==0.22.0
-pandas==2.2.2
-numpy==2.0.1
-geopandas==1.0.1
-shapely==2.0.5
+geopandas
+shapely
 fiona
-pyproj>=3.6
-folium==0.17.0
-branca==0.7.2
-pyogrio>=0.9
-xyzservices==2024.6.0
+pyproj
+folium
+branca
+streamlit
+streamlit_folium
+pandas
+numpy
+pyogrio
+xyzservices
+
 
 
