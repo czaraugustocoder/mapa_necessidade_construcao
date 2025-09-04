@@ -24,4 +24,5 @@ Nosso objetivo é **facilitar a análise e a tomada de decisão**, oferecendo um
 """)
 
 
-st.sidebar.image(path_logo, use_column_width=True)
+
+st.sidebar.image(path_logo, use_container_width=True)
