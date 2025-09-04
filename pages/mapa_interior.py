@@ -100,7 +100,7 @@ style_function=lambda feature: {
     tooltip=folium.GeoJsonTooltip(
     fields=['NM_MUN', 'TOTAL_AT_fmt', 'TOTAL_DA_fmt', 'TOTAL_SALAS_fmt'],
     aliases=['Município', 'Total de Atendimento:', 'Déficite de Atendimento:', 'Salas Necessárias:'],
-    max_width=62,
+    max_width=76,
     style=(
         "background-color: white; "
         "color: #333333; "
@@ -115,6 +115,7 @@ folium.LayerControl().add_to(m)
 
 
 st_folium(m, width=1000, returned_objects=[])
+
 
 
 
