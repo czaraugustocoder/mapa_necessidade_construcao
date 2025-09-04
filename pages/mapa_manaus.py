@@ -153,7 +153,7 @@ style_function=lambda feature: {
         "background-color: white; "
         "color: #333333; "
         "font-family: Arial; "
-        "font-size: 28px; "
+        "font-size: 24px; "
         "padding: 8px;"
     ))
 ).add_to(m)
@@ -163,4 +163,5 @@ folium.LayerControl().add_to(m)
 
 
 st_folium(m, width=1000, returned_objects=[])
+
 
