@@ -56,7 +56,7 @@ st.title("NECESSIDADE DE CONSTRUÇÃO - MANAUS")
 
 #st.write("Mapa interativo das escolas estaduais (cor azul) e municipais (cor laranja) da cidade de Manaus")
 
-st.sidebar.image(path_logo, use_column_width=True)
+st.sidebar.image(path_logo, use_container_width=True)
 
 # Ler o shapefile
 gdf = gpd.read_file(shp_path).to_crs("EPSG:4326")
@@ -153,7 +153,7 @@ style_function=lambda feature: {
         "background-color: white; "
         "color: #333333; "
         "font-family: Arial; "
-        "font-size: 32px; "
+        "font-size: 28px; "
         "padding: 8px;"
     ))
 ).add_to(m)
@@ -163,3 +163,4 @@ folium.LayerControl().add_to(m)
 
 
 st_folium(m, width=1000, returned_objects=[])
+
