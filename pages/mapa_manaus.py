@@ -148,12 +148,12 @@ style_function=lambda feature: {
     tooltip=folium.GeoJsonTooltip(
     fields=['NOME_BAIRR', 'NUM_ESCOLAS', 'NUM_ESCOLAS_SEMED', 'TOTAL_AT_fmt', 'TOTAL_DA_fmt', 'TOTAL_SALAS_fmt'],
     aliases=['Bairro', 'Escolas Estaduais', 'Escolas Municipais', 'Total de Atendimento:', 'Déficite de Atendimento:', 'Salas Necessárias:'],
-    max_width=50,
+    max_width=76,
     style=(
         "background-color: white; "
         "color: #333333; "
         "font-family: Arial; "
-        "font-size: 12px; "
+        "font-size: 22px; "
         "padding: 8px;"
     ))
 ).add_to(m)
@@ -163,6 +163,7 @@ folium.LayerControl().add_to(m)
 
 
 st_folium(m, width=1000, returned_objects=[])
+
 
 
 
