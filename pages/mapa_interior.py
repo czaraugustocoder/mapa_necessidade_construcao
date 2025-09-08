@@ -125,7 +125,7 @@ folium.GeoJson(
             "background-color: white; "
             "color: #333333; "
             "font-family: Arial; "
-            "font-size: 12px; "
+            "font-size: 19px; "
             "padding: 8px;"
         )
     )
@@ -136,6 +136,7 @@ folium.LayerControl().add_to(m)
 
 # Exibir no Streamlit
 st_folium(m, width=1000, returned_objects=[])
+
 
 
 
