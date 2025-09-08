@@ -85,20 +85,38 @@ censo = pd.read_excel(censo_path)
 m = folium.Map(location=[-3.057334413281103, -59.98600479911497], zoom_start=11.50)
 
 # Unir com o shapefile
-gdf_mapa = gdf.merge(censo[["BAIRRO","TOTAL AT", "TOTAL DA", "TOTAL SALAS"]], left_on='NOME_BAIRR', right_on='BAIRRO', how='left')
+gdf_mapa = gdf.merge(
+    censo[[
+        "BAIRRO",
+        "TOTAL P",
+        "0-3 AT", "4-5 AT", "6-10 AT", "11-14 AT", "15-17 AT", "TOTAL AT",
+        "0-3 DA", "4-5 DA", "6-10 DA", "11-14 DA", "15-17 DA", "TOTAL DA", "TOTAL DA - POS",
+        "0-3 SALAS", "4-5 SALAS", "6-10 SALAS", "11-14 SALAS", "15-17 SALAS", "TOTAL SALAS"
+    ]],
+    left_on="NOME_BAIRR",
+    right_on="BAIRRO",
+    how="left"
+)
 
-# Juntar a contagem de escolas ao GeoDataFrame
-gdf_mapa = gdf_mapa.merge(escolas_por_bairro, left_on='NOME_BAIRR', right_on='BAIRRO', how='left')
-gdf_mapa['NUM_ESCOLAS'] = gdf_mapa['NUM_ESCOLAS'].fillna(0).astype(int)
+# Juntar a contagem de escolas
+gdf_mapa = gdf_mapa.merge(escolas_por_bairro, left_on="NOME_BAIRR", right_on="BAIRRO", how="left")
+gdf_mapa["NUM_ESCOLAS"] = gdf_mapa["NUM_ESCOLAS"].fillna(0).astype(int)
 
-gdf_mapa = gdf_mapa.merge(escolas_por_bairro_semed, left_on='NOME_BAIRR', right_on='BAIRRO', how='left')
-gdf_mapa['NUM_ESCOLAS_SEMED'] = gdf_mapa['NUM_ESCOLAS_SEMED'].fillna(0).astype(int)
+# Juntar escolas da SEMED
+gdf_mapa = gdf_mapa.merge(escolas_por_bairro_semed, left_on="NOME_BAIRR", right_on="BAIRRO", how="left")
+gdf_mapa["NUM_ESCOLAS_SEMED"] = gdf_mapa["NUM_ESCOLAS_SEMED"].fillna(0).astype(int)
 
-# formatando os números
+# Listar todas as colunas numéricas que precisam ser formatadas
+colunas_para_formatar = [
+    "TOTAL P",
+    "0-3 AT", "4-5 AT", "6-10 AT", "11-14 AT", "15-17 AT", "TOTAL AT",
+    "0-3 DA", "4-5 DA", "6-10 DA", "11-14 DA", "15-17 DA", "TOTAL DA", "TOTAL DA - POS",
+    "0-3 SALAS", "4-5 SALAS", "6-10 SALAS", "11-14 SALAS", "15-17 SALAS", "TOTAL SALAS"
+]
 
-gdf_mapa["TOTAL_AT_fmt"] = gdf_mapa["TOTAL AT"].apply(lambda x: f"{x:,.0f}".replace(",", "."))
-gdf_mapa["TOTAL_DA_fmt"] = gdf_mapa["TOTAL DA"].apply(lambda x: f"{x:,.0f}".replace(",", "."))
-gdf_mapa["TOTAL_SALAS_fmt"] = gdf_mapa["TOTAL SALAS"].apply(lambda x: f"{x:,.0f}".replace(",", "."))
+# Criar versões formatadas
+for col in colunas_para_formatar:
+    gdf_mapa[f"{col}_fmt"] = gdf_mapa[col].apply(lambda x: f"{x:,.0f}".replace(",", ".") if pd.notnull(x) else "0")
 
 local = st.sidebar.multiselect('Escolha o bairro:', gdf['NOME_BAIRR'].unique())
 
@@ -146,14 +164,14 @@ style_function=lambda feature: {
     'weight': 0.7
         },
     tooltip=folium.GeoJsonTooltip(
-    fields=['NOME_BAIRR', 'NUM_ESCOLAS', 'NUM_ESCOLAS_SEMED', 'TOTAL_AT_fmt', 'TOTAL_DA_fmt', 'TOTAL_SALAS_fmt'],
-    aliases=['Bairro', 'Escolas Estaduais', 'Escolas Municipais', 'Total de Atendimento:', 'Déficite de Atendimento:', 'Salas Necessárias:'],
-    max_width=76,
+    fields=['NOME_BAIRR', 'NUM_ESCOLAS', 'NUM_ESCOLAS_SEMED', 'TOTAL AT_fmt', 'TOTAL DA - POS_fmt', 'TOTAL SALAS_fmt', '0-3 SALAS_fmt', '4-5 SALAS_fmt', '6-10 SALAS_fmt', '11-14 SALAS_fmt', '15-17 SALAS_fmt'],
+    aliases=['Bairro', 'Escolas Estaduais', 'Escolas Municipais', 'Total de Atendimento:', 'Déficite de Atendimento:', 'Salas Necessárias (S.N):', 'S.N - 0 a 3 anos:', 'S.N - 4 a 5 anos:', 'S.N - 6 a 10 anos:', 'S.N - 11 a 14 anos:', 'S.N - 15 a 17 anos:'],
+    max_width=300,
     style=(
         "background-color: white; "
         "color: #333333; "
         "font-family: Arial; "
-        "font-size: 22px; "
+        "font-size: 42px; "
         "padding: 8px;"
     ))
 ).add_to(m)
@@ -161,8 +179,8 @@ style_function=lambda feature: {
 # Controles
 folium.LayerControl().add_to(m)
 
-
 st_folium(m, width=1000, returned_objects=[])
+
 
 
 
