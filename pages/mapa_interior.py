@@ -117,7 +117,7 @@ folium.GeoJson(
     tooltip=folium.GeoJsonTooltip(
         fields=['NM_MUN', 'TOTAL AT_fmt', 'TOTAL DA - POS_fmt', 'TOTAL SALAS_fmt',
                 '0-3 SALAS_fmt', '4-5 SALAS_fmt', '6-10 SALAS_fmt', '11-14 SALAS_fmt', '15-17 SALAS_fmt'],
-        aliases=['Município', 'Total de Atendimento:', 'Déficite de Atendimento:',
+        aliases=['Município', 'Total de Atendimento:', 'Déficit de Atendimento:',
                  'Salas Necessárias (S.N):', 'S.N - 0 a 3 anos:', 'S.N - 4 a 5 anos:',
                  'S.N - 6 a 10 anos:', 'S.N - 11 a 14 anos:', 'S.N - 15 a 17 anos:'],
         max_width=300,
@@ -136,6 +136,7 @@ folium.LayerControl().add_to(m)
 
 # Exibir no Streamlit
 st_folium(m, width=1000, returned_objects=[])
+
 
 
 
